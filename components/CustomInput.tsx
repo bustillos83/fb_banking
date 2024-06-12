@@ -2,36 +2,37 @@
 
 import React from 'react'
 import { FormControl, FormField, FormLabel, FormMessage } from './ui/form'
-import { Control} from 'react-hook-form'
+import { Control, FieldPath} from 'react-hook-form'
 import { z } from 'zod'
-import { AuthFormSchema } from '@/lib/utils'
+import { authFormSchema } from '@/lib/utils'
 
 import { Input } from './ui/input'
 
   interface CustomInput {
-    control: Control<z.infer<typeof AuthFormSchema>>,
-    name: string,
+    control: Control<z.infer<typeof authFormSchema>>,
+    name: FieldPath<z.infer<typeof authFormSchema>>,
     label: string,
     placeholder: string
   }
 
-const CustomInput = ({control, name, label, placeholder}:
+const CustomInput = ({control, name, label, placeholder }:
   CustomInput) => {
   return (
-               <FormField
-                  control={control}
-                  name={name}
-                  render={({ field }) => (
-                    <div className='form-item'>
+        <FormField
+            control={control}
+            name={name}
+            render={({ field }) => (
+                <div className='form-item'>
                       <FormLabel 
                         className='form-label'>
-                      Password
+                      {label}
                       </FormLabel>
                       <div className='flex-w-full flex-col'>
                       <FormControl>
                     <Input
                     placeholder={placeholder}
-               className='input-class'
+                    className='input-class'
+                    type='password'
                {...field}
                      />
                                 
