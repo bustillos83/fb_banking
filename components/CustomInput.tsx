@@ -7,13 +7,14 @@ import { z } from 'zod'
 import { authFormSchema } from '@/lib/utils'
 
 import { Input } from './ui/input'
+import { text } from 'stream/consumers'
 
   interface CustomInput {
     control: Control<z.infer<typeof authFormSchema>>,
     name: FieldPath<z.infer<typeof authFormSchema>>,
     label: string,
-    placeholder: string
-  }
+    placeholder: string,
+  };
 
 const CustomInput = ({control, name, label, placeholder }:
   CustomInput) => {
@@ -32,7 +33,7 @@ const CustomInput = ({control, name, label, placeholder }:
                     <Input
                     placeholder={placeholder}
                     className='input-class'
-                    type='password'
+                    type={name === 'password' ? 'password' : 'text' }
                {...field}
                      />
                                 
