@@ -1,10 +1,14 @@
 import React from 'react'
 
-const Footer = () => {
+const Footer = ({ user }: FooterProps) => {
   return (
-    <div>
-      Footer
+   <footer className='footer'>
+    <div className='footer_name'>
+        <p className="text-xl font-bold text-gray-700">
+            {user.firstName[0]}
+        </p>
     </div>
+   </footer>
   )
 }
 

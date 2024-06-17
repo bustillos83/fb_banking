@@ -14,38 +14,37 @@ import CustomInput from '../CustomInput'
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.action'
+import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions'
 
 
 
-const AuthForm = ({type}:{ type: string}) => {
+const AuthForm = ({ type }: { type: string }) => {
+    const [user, setUser] = useState(null);
     const router = useRouter();
-    const [user, setuser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     
 
     const formSchema = authFormSchema(type);
 
         //. Define your form
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-          email: "",
-          password: ''
-        },
-      })
+        const form = useForm<z.infer<typeof formSchema>>({
+            resolver: zodResolver(formSchema),
+            defaultValues: {
+              email: "",
+              password: ''
+            },
+          })
      
       // 2. Define a submit handler.
       const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    
-        setIsLoading(true)
-        
+        setIsLoading(true);
+  
          try {
             //Sign up with Appwrite & create plaid token
             if(type === 'sign-up'){
               const newUser = await signUp(data);
 
-              setuser(newUser);
+              setUser(newUser);
               }      
             
 

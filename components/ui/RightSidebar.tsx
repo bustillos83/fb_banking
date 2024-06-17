@@ -1,29 +1,29 @@
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 import BankCard from './BankCard'
+import { getLoggedInUser } from '@/lib/actions/user.actions'
 
-const RightSidebar = ({user, transactions, banks}:
-    RightSidebarProps ) => {
+const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
   return (
     <aside className="right-sidebar">
-    <section className="flex flex-col pb-8">
-      <div className="profile-banner" />
-      <div className="profile">
-        <div className="profile-img">
-          <span className="text-5xl font-bold text-blue-500">{user.name[0]}</span>
-        </div>
+      <section className="flex flex-col pb-8">
+        <div className="profile-banner" />
+        <div className="profile">
+          <div className="profile-img">
+            <span className="text-5xl font-bold text-blue-500">{user?.name}</span>
+          </div>
 
-        <div className="profile-details">
-          <h1 className='profile-name'>
-            {user.name}
-          </h1>
-          <p className="profile-email">
-            {user.email}
-          </p>
+          <div className="profile-details">
+            <h1 className='profile-name'>
+              {user?.name}
+            </h1>
+            <p className="profile-email">
+              {user?.email}
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
                     <section className='banks'>
                         <div className='flex w-full justify-between'>
                             <h2 className='header-2'>My Banks</h2>
@@ -47,7 +47,7 @@ const RightSidebar = ({user, transactions, banks}:
                                     <BankCard 
                                     key={banks[0].$id}
                                     account={banks[0]}
-                                    userName={`${user.firstName} ${user.lastName}`}
+                                    userName={getLoggedInUser.name}
                                     showBalance ={false}
                                     />
                                 </div>
@@ -56,7 +56,7 @@ const RightSidebar = ({user, transactions, banks}:
                                         <BankCard 
                                           key={banks[1].$id}
                                           account={banks[1]}
-                                          userName={`${user.firstName} ${user.lastName}`}
+                                          userName={getLoggedInUser.name}
                                           showBalance ={false}
                                             />
                                     </div>
