@@ -76,7 +76,7 @@ const MobileNav = ({ user }:
 
             </SheetClose>
             <Footer 
-            user={user}/>
+            user={user} type='mobile'/>
 
         </div>
       </SheetContent>
