@@ -1,6 +1,6 @@
 
-import MobileNav from "@/components/ui/MobileNav";
-import Sidebar from "@/components/ui/Sidebar";
+import MobileNav from "@/components/MobileNav";
+import Sidebar from "@/components/Sidebar";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Serif } from "next/font/google";

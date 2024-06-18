@@ -5,6 +5,7 @@ import { createAdminClient, createSessionClient } from "../appwrite"
 import { cookies } from "next/headers"
 import { parseStringify } from "../utils"
 
+
 export const signIn = async ({email, password}:
     signInProps
 ) => {
@@ -32,7 +33,7 @@ export const signUp = async (userData: SignUpParams) => {
         );
         const session = await account.createEmailPasswordSession(email, password);
       
-        cookies().set("appwrtite-session", session.secret, {
+        cookies().set("appwrite-session", session.secret, {
           path: "/",
           httpOnly: true,
           sameSite: "strict",

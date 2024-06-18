@@ -7,10 +7,10 @@ import Image from 'next/image'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/button"
 import { Form } from "@/components/ui/form"
 
-import CustomInput from '../CustomInput'
+import CustomInput from './CustomInput'
 import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -22,6 +22,7 @@ const AuthForm = ({ type }: { type: string }) => {
     const [user, setUser] = useState(null);
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    
     
 
     const formSchema = authFormSchema(type);
