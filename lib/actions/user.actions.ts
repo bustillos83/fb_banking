@@ -3,12 +3,12 @@
 import { ID } from "node-appwrite"
 import { createAdminClient, createSessionClient } from "../appwrite"
 import { cookies } from "next/headers"
-import { encryptId, parseStringify } from "../utils"
+import { encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils"
 import { CountryCode, ProcessorTokenCreateRequest, ProcessorTokenCreateRequestProcessorEnum, Products } from "plaid";
 
 import { plaidClient } from '@/lib/plaid'
 import { revalidatePath } from "next/cache";
-import { addFundingSource } from "./dwolla.actions";
+import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
 
 const {
     APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -33,14 +33,41 @@ export const signIn = async ({email, password}:
 
 export const signUp = async (userData: SignUpParams) => {
     const {email, password, firstName, lastName} = userData;
-    try {
-        const { account } = await createAdminClient();
+    
+    let newUserAccount;
 
-        const newUserAccount = await account.create(ID.unique(), 
+    try {
+        const { account, database } = await createAdminClient();
+
+        newUserAccount = await account.create(ID.unique(), 
         email, 
         password, 
         `${firstName} ${lastName}`
         );
+
+        if(!newUserAccount) throw new Error('Error creating user')
+
+        const dwollaCustomerUrl = await createDwollaCustomer({
+            ...userData,
+            type: 'personal'
+        })
+
+        if(!dwollaCustomerUrl) throw new Error('Error creating Dwolla customer')
+
+        const dowallaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl)
+
+        const newUser = await database.createDocument(
+            DATABASE_ID!,
+            USER_COLLECTION_ID!,
+            ID.unique(),
+            {
+                ...userData,
+                userId: newUserAccount.$id,
+                dowallaCustomerId,
+                dwollaCustomerUrl
+            }
+        )
+
         const session = await account.createEmailPasswordSession(email, password);
       
         cookies().set("appwrite-session", session.secret, {
@@ -49,7 +76,7 @@ export const signUp = async (userData: SignUpParams) => {
           sameSite: "strict",
           secure: true,
         });
-        return parseStringify(newUserAccount);
+        return parseStringify(newUser);
         
     } catch (error) {
         console.error('Error', error)
@@ -135,7 +162,7 @@ export const createBankAccount = async ({
       )
 
       return parseStringify(bankAccount);
-      
+
     } catch (error) {
         
     }
