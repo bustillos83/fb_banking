@@ -57,34 +57,31 @@ export const signUp = async ({ password, ...userData}: SignUpParams ) => {
         const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl)
 
         const newUser = await database.createDocument(
-            DATABASE_ID!,
-            USER_COLLECTION_ID!,
-            ID.unique(),
-            {
-                ...userData,
-                userId: newUserAccount.$id,
-                dwollaCustomerId,
-                dwollaCustomerUrl
-            }
+          DATABASE_ID!,
+          USER_COLLECTION_ID!,
+          ID.unique(),
+          {
+            ...userData,
+            userId: newUserAccount.$id,
+            dwollaCustomerId,
+            dwollaCustomerUrl
+          }
         )
 
         const session = await account.createEmailPasswordSession(email, password);
-      
+
         cookies().set("appwrite-session", session.secret, {
           path: "/",
           httpOnly: true,
           sameSite: "strict",
           secure: true,
         });
-        return parseStringify(newUser);
-        
-    } catch (error) {
-        console.error('Error', error)
-        
-    }
-
     
-}
+        return parseStringify(newUser);
+      } catch (error) {
+        console.error('Error', error);
+      }
+    }
 
 
 
