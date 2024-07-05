@@ -39,10 +39,11 @@ export const signUp = async ({ password, ...userData}: SignUpParams ) => {
     try {
         const { account, database } = await createAdminClient();
 
-        newUserAccount = await account.create(ID.unique(), 
-        email, 
-        password, 
-        `${firstName} ${lastName}`
+        newUserAccount = await account.create(
+          ID.unique(), 
+          email, 
+          password, 
+          `${firstName} ${lastName}`
         );
 
         if(!newUserAccount) throw new Error('Error creating user')

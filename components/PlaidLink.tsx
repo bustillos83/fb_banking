@@ -27,7 +27,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
       router.push('/');
     }, [user])
 
-    const config: PlaidLinkOptions ={
+    const config: PlaidLinkOptions = {
         token,
         onSuccess
     }
@@ -37,7 +37,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
     <>
     {variant === 'primary' ? (
         <Button
-        onClick={() => open}
+        onClick={() => open()}
         disabled={!ready}
         className='plaidlink-primary'>
             Connect bank
