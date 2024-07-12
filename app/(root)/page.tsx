@@ -20,6 +20,10 @@ const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
 
 const account = await getAccount({ appwriteItemId })
 
+console.log({
+  accountsData, account
+})
+
   return (
     <section className="home">
       <div className="home-content">
@@ -27,7 +31,7 @@ const account = await getAccount({ appwriteItemId })
           <HeaderBox
           type="greeting"
           title="Welcome"
-          user={loggedIn?.name || 'Guest'}
+          user={loggedIn?.firstName || 'Guest'}
           subtext="Access and manage your account and transactions efficiently"
           />
           <TotalBalanceBox
@@ -42,8 +46,8 @@ const account = await getAccount({ appwriteItemId })
       </div>
       <RightSidebar
       user={loggedIn}
-      transactions={[]}
-      banks={[{currentBalance: 123.50}, {currentBalance: 500}]}
+      transactions={accounts?.transactions}
+      banks={accountsData?.slice(0,2)}
       />
     </section>
   )
