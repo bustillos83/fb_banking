@@ -16,7 +16,7 @@ const {
     APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID,
 } = process.env;
 
-export const getUserInfo = async ({ userId }: getUserInfoProps) => {
+export const getUserInfo = async ({ userId}: getUserInfoProps) => {
 
   try {
     const { database } = await createAdminClient();
@@ -282,12 +282,12 @@ export const exchangePublicToken = async ({
   try {
     const { database } = await createAdminClient();
 
-    const bank = await database.listDocuments(
+    const bank = await database.getDocument(
       DATABASE_ID!,
       BANK_COLLECTION_ID!,
-      [Query.equal('$id', [documentId])]
-    )
-    return parseStringify(bank.documents[0]);
+      documentId)
+  
+    return parseStringify(bank);
   } catch (error) {
     console.log(error)
   }
