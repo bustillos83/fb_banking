@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import React from 'react'
 
 const RecentTransactions = ({
@@ -13,8 +15,13 @@ const RecentTransactions = ({
           Recent Transactions
 
         </h2>
+        <Link href={`/transaction-history/?id=${appwriteItemId}`} className='view-all-btn'>
+        View all
+        </Link>
 
       </header>
+
+
       
     </section>
   )

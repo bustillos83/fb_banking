@@ -270,8 +270,7 @@ export const exchangePublicToken = async ({
     const banks = await database.listDocuments(
       DATABASE_ID!,
       BANK_COLLECTION_ID!,
-      [Query.equal('userId', [userId])]
-    )
+      [Query.equal('userId', [userId])])
     return parseStringify(banks.documents);
   } catch (error) {
     console.log(error)
@@ -281,11 +280,11 @@ export const exchangePublicToken = async ({
  export const getBank = async ({ documentId }: getBankProps) => {
   try {
     const { database } = await createAdminClient();
+    const bank = await database.getDocument
+    (DATABASE_ID!, 
+      BANK_COLLECTION_ID!, 
+      documentId);
 
-    const bank = await database.getDocument(
-      DATABASE_ID!,
-      BANK_COLLECTION_ID!,
-      documentId)
   
     return parseStringify(bank);
   } catch (error) {
